@@ -55,7 +55,7 @@ export const customNumberValidation = (
   return true;
 };
 
-export const secondFileThrowError = (
+export const fileOver500Error = (
   value: Document,
   formValues: MiterFieldValues
 ): ValidateResult => {

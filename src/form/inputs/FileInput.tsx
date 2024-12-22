@@ -9,7 +9,7 @@ import {
 } from "react-hook-form";
 import { Document } from "../types.ts";
 import { ErrorMessage } from "../basic/error.tsx";
-import { secondFileThrowError } from "../validations/all.ts";
+import { fileOver500Error } from "../validations/all.ts";
 
 /** Controlled file input component using useFieldArray for better performance */
 export const FileInput = <T extends MiterFieldValues>(props: FilesProps<T>) => {
@@ -65,7 +65,7 @@ export const FileInput = <T extends MiterFieldValues>(props: FilesProps<T>) => {
               name={fieldPath}
               rules={{
                 validate: (w, y) => {
-                  return secondFileThrowError(w, y);
+                  return fileOver500Error(w, y);
                 },
               }}
               render={() => {
