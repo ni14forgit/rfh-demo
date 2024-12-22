@@ -60,7 +60,13 @@ type CommonProps<T extends MiterFieldValues> = {
   size: "small" | "medium" | "large";
 };
 
-/** Text, number will be uncontrolled components */
+/**
+ * Uncontrolled components
+ *
+ * Text
+ * Number
+ *
+ * */
 
 export type TextProps<T extends MiterFieldValues> = CommonProps<T> & {
   placeholder: string;
@@ -78,13 +84,10 @@ export type NumberProps<T extends MiterFieldValues> = CommonProps<T> & {
 };
 
 /**
- * CONTROLLED components
+ * Controlled components
  *
  * Select
- * Multi-select
- * Signature
- * Date picker
- * Phone
+ * Files
  *
  * */
 
