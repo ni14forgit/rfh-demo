@@ -1,135 +1,92 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FilesProps, MiterFieldValues } from "../types.ts";
 import {
   ArrayPath,
   Controller,
   FieldArray,
-  FieldArrayPath,
   Path,
   useFieldArray,
 } from "react-hook-form";
-import { ErrorMessage } from "../basic/error.tsx";
 import { Document } from "../types.ts";
+import { ErrorMessage } from "../basic/error.tsx";
 
 /** Controlled file input component using useFieldArray for better performance */
 export const FileInput = <T extends MiterFieldValues>(props: FilesProps<T>) => {
-  const {
-    label,
-    fieldName,
-    rules,
-    mode,
-    onValueChange,
-    errors,
-    control,
-    variant,
-  } = props;
+  const { label, fieldName, rules, errors, control } = props;
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove } = useFieldArray<T, typeof fieldName>({
     control,
     name: fieldName,
+    rules: { validate: rules },
   });
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (!files) return;
+  const hiddenFileInput = useRef<HTMLInputElement>(null);
 
-    const fileArray = Array.from(files);
-    fileArray.forEach((file) => {
-      append({ file, id: "hi" } as FieldArray<T, ArrayPath<T>>);
-    });
-    onValueChange?.(fields.map((f) => f));
+  const handleAddDocuments = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const uploadedFiles = Array.from(event.target.files || []);
+
+    const files = uploadedFiles.map((file) => ({
+      file,
+    }));
+
+    append(files as FieldArray<T, ArrayPath<T>>[]);
+
+    if (hiddenFileInput.current) {
+      hiddenFileInput.current.value = "";
+    }
   };
-
-  const removeFile = (index: number) => {
-    remove(index);
-    onValueChange?.(fields.map((f) => f));
-  };
-
-  const renderFileList = () => (
-    <ul>
-      {fields.map((field, index) => {
-        console.log(field);
-        return (
-          <li key={field.id}>
-            {mode === "editable" && (
-              <button type="button" onClick={() => removeFile(index)}>
-                Remove
-              </button>
-            )}
-          </li>
-        );
-      })}
-    </ul>
-  );
-
-  const renderDropzone = () => (
-    <div
-      style={{
-        border: "2px dashed #ccc",
-        padding: "20px",
-        textAlign: "center",
-        cursor: mode === "editable" ? "pointer" : "default",
-      }}
-      onClick={() =>
-        mode === "editable" &&
-        document.getElementById(`file-input-${fieldName}`)?.click()
-      }
-    >
-      <input
-        id={`file-input-${fieldName}`}
-        type="file"
-        multiple
-        onChange={handleFileChange}
-        style={{ display: "none" }}
-        disabled={mode === "disabled" || mode === "view-only"}
-      />
-      <p>Drag & drop files here, or click to select files</p>
-    </div>
-  );
-
-  const renderButton = () =>
-    mode === "editable" && (
-      <div>
-        <input
-          id={`file-input-${fieldName}`}
-          type="file"
-          multiple
-          onChange={handleFileChange}
-          style={{ display: "none" }}
-        />
-        <button
-          type="button"
-          onClick={() =>
-            document.getElementById(`file-input-${fieldName}`)?.click()
-          }
-        >
-          Upload Files
-        </button>
-      </div>
-    );
 
   return (
-    <div>
-      {label}
-      <Controller
-        name={fieldName}
-        control={control}
-        rules={{ validate: rules }}
-        render={() => (
-          <div>
-            {variant === "dropzone" && renderDropzone()}
-            {variant === "button" && renderButton()}
-            {variant === "dropzone-button" && (
-              <>
-                {renderDropzone()}
-                {renderButton()}
-              </>
-            )}
-            {renderFileList()}
-          </div>
-        )}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: "20px",
+      }}
+    >
+      <input
+        multiple
+        ref={hiddenFileInput}
+        type="file"
+        onChange={handleAddDocuments}
       />
-      <ErrorMessage errors={errors} fieldName={fieldName} />
+      <div>{label}</div>
+      {fields.map((file, index) => {
+        const castedFile = file as unknown as Document;
+        const fieldPath = `${fieldName}.${index}` as Path<T>;
+        return (
+          <div key={index}>
+            <Controller
+              control={control}
+              name={fieldPath}
+              rules={{
+                validate: (w, y) => {
+                  return "File Field ERROR";
+                },
+              }}
+              render={() => {
+                return (
+                  <div>
+                    <button onClick={() => remove(index)}>
+                      {"remove" + castedFile.file.name}
+                    </button>
+                    <ErrorMessage errors={errors} fieldName={fieldPath} />
+                  </div>
+                );
+              }}
+            />
+          </div>
+        );
+      })}
+
+      <ErrorMessage
+        errors={errors}
+        fieldName={fieldName}
+        isArrayRootError={true}
+      />
     </div>
   );
 };

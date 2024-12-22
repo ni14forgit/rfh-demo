@@ -1,6 +1,5 @@
 import React from "react";
 import { TextProps, MiterFieldValues } from "../types";
-import { FieldValues } from "react-hook-form";
 import { ErrorMessage } from "../basic/error.tsx";
 
 export const TextInput = <T extends MiterFieldValues>(props: TextProps<T>) => {
@@ -27,7 +26,7 @@ export const TextInput = <T extends MiterFieldValues>(props: TextProps<T>) => {
         className={cssClassName}
         placeholder={placeholder}
         {...register(fieldName, { validate: rules })}
-        onChange={onValueChange}
+        onChange={(e) => onValueChange?.(e.target.value)}
         disabled={isDisabled}
         readOnly={isReadOnly}
       />

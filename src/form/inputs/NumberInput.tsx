@@ -1,6 +1,5 @@
 import React from "react";
 import { NumberProps, MiterFieldValues } from "../types";
-import { FieldValues } from "react-hook-form";
 
 export const NumberInput = <T extends MiterFieldValues>(
   props: NumberProps<T>
@@ -29,17 +28,13 @@ export const NumberInput = <T extends MiterFieldValues>(
         type="number"
         className={cssClassName}
         placeholder={placeholder}
-        {...register(fieldName, { validate: rules })}
-        onChange={onValueChange}
+        {...register(fieldName, { validate: rules, valueAsNumber: true })}
+        onChange={(e) => onValueChange?.(Number(e.target.value))}
         disabled={isDisabled}
         readOnly={isReadOnly}
         step={step ?? undefined}
       />
-      <div>
-        {errors[fieldName] && errors[fieldName]?.message
-          ? String(errors[fieldName]?.message)
-          : ""}
-      </div>
+      <div>{errors[fieldName]?.message}</div>
     </div>
   );
 };

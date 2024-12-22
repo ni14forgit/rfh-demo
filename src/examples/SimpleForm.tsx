@@ -1,11 +1,11 @@
 import React, { FC } from "react";
-import { FieldArrayPath, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { TextInput } from "../form/inputs/TextInput.tsx";
-import { required } from "../form/validations/all.ts";
+import { customNumberValidation, required } from "../form/validations/all.ts";
 import { NumberInput } from "../form/inputs/NumberInput.tsx";
 import { SelectInput } from "../form/inputs/SelectInput.tsx";
 import { FileInput } from "../form/inputs/FileInput.tsx";
-import { Files } from "../form/types.ts";
+import { Data, Files } from "../form/types.ts";
 
 type SimpleFormData = {
   name: string;
@@ -14,7 +14,11 @@ type SimpleFormData = {
   files: Files;
 };
 
-// TODO: utility function to build defaultValues of a form
+const selectOptions = [
+  { label: "Tennis", value: "tennis" },
+  { label: "Basketball", value: "basketball" },
+  { label: "Football", value: "football" },
+];
 
 const SimpleForm: FC = () => {
   const {
@@ -25,18 +29,20 @@ const SimpleForm: FC = () => {
   } = useForm<SimpleFormData>({
     defaultValues: {
       name: "",
-      age: 0,
+      age: undefined,
       favoriteSport: "tennis",
       files: [],
     },
   });
 
-  const onSave = (data: SimpleFormData) => {
-    console.log(data);
+  const onSave = (data: SimpleFormData) => {};
+
+  const onValueChange = (value: Data) => {
+    console.log("Side effect here", value);
   };
 
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column", gap: "30px" }}>
       <TextInput
         label="Name"
         fieldName="name"
@@ -46,34 +52,34 @@ const SimpleForm: FC = () => {
         errors={errors}
         mode="editable"
         size="medium"
-        onValueChange={() => {}}
+        onValueChange={onValueChange}
       />
+
       <NumberInput
         label="Age"
         fieldName="age"
         register={register}
         placeholder="Enter your age"
-        rules={required}
+        rules={{
+          required,
+          customNumberValidation,
+        }}
         errors={errors}
         mode="editable"
         size="medium"
-        onValueChange={() => {}}
+        onValueChange={onValueChange}
         step={4}
       />
       <SelectInput
         label="Favorite Sport"
         fieldName="favoriteSport"
         control={control}
-        options={[
-          { label: "Tennis", value: "tennis" },
-          { label: "Basketball", value: "basketball" },
-          { label: "Football", value: "football" },
-        ]}
+        options={selectOptions}
         rules={required}
         errors={errors}
         mode="editable"
         size="medium"
-        onValueChange={() => {}}
+        onValueChange={onValueChange}
       />
       <FileInput
         label="Files"
@@ -83,10 +89,12 @@ const SimpleForm: FC = () => {
         errors={errors}
         mode="editable"
         size="medium"
-        onValueChange={() => {}}
         variant="dropzone-button"
       />
-      <button onClick={handleSubmit(onSave)}>Save</button>
+
+      <button style={{ marginTop: "30px" }} onClick={handleSubmit(onSave)}>
+        Save
+      </button>
     </div>
   );
 };

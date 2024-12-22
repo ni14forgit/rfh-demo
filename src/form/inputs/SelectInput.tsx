@@ -5,7 +5,7 @@ import {
   SelectProps,
   Option,
 } from "../types.ts";
-import { Controller, FieldValues } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import Select, { SingleValue } from "react-select";
 import { GroupBase } from "react-select";
 import { ErrorMessage } from "../basic/error.tsx";
@@ -27,8 +27,6 @@ export const SelectInput = <T extends MiterFieldValues>(
         rules={{ validate: rules }}
         render={({ field }) => {
           const { onChange, value } = field;
-
-          console.log(value);
 
           const optionValue = options.find((option) => option.value === value);
 

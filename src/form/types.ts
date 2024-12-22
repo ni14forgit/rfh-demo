@@ -1,12 +1,10 @@
 import {
   UseFormReturn,
-  FieldValues,
   RegisterOptions,
   Control,
   FieldErrors,
   Path,
   FieldArrayPath,
-  ArrayPath,
 } from "react-hook-form";
 import { DateTime } from "luxon";
 
@@ -49,7 +47,8 @@ export type Data =
   | SingleSelect
   | MultiSelect
   | Radio
-  | Checkbox;
+  | Checkbox
+  | undefined;
 
 export type MiterFieldValues = Record<string, Data>;
 
@@ -59,8 +58,6 @@ type CommonProps<T extends MiterFieldValues> = {
   errors: FieldErrors<T>;
   mode: "view-only" | "editable" | "disabled";
   size: "small" | "medium" | "large";
-  // TODO: Make this more strongly typed, and add a type for the value (specific string types)
-  onValueChange: (value: Data) => void | Promise<void>;
 };
 
 /** Text, number will be uncontrolled components */
@@ -69,6 +66,7 @@ export type TextProps<T extends MiterFieldValues> = CommonProps<T> & {
   placeholder: string;
   fieldName: Path<T>;
   register: UseFormReturn<T>["register"];
+  onValueChange?: (value: Text) => void | Promise<void>;
 };
 
 export type NumberProps<T extends MiterFieldValues> = CommonProps<T> & {
@@ -76,6 +74,7 @@ export type NumberProps<T extends MiterFieldValues> = CommonProps<T> & {
   step: number | null;
   fieldName: Path<T>;
   register: UseFormReturn<T>["register"];
+  onValueChange?: (value: number) => void | Promise<void>;
 };
 
 /**
@@ -93,6 +92,7 @@ export type SelectProps<T extends MiterFieldValues> = CommonProps<T> & {
   control: Control<T>;
   options: Option<OptionValueBase>[];
   fieldName: Path<T>;
+  onValueChange?: (value: SingleSelect) => void | Promise<void>;
 };
 
 // /** Files will the useFieldArray hook for performance */
@@ -100,4 +100,6 @@ export type FilesProps<T extends MiterFieldValues> = CommonProps<T> & {
   control: Control<T>;
   variant: "dropzone" | "button" | "dropzone-button";
   fieldName: FieldArrayPath<T>;
+  onValueAppend?: (value: Document[]) => void | Promise<void>;
+  onValueRemove?: (index: number) => void | Promise<void>;
 };
