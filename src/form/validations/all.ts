@@ -1,5 +1,5 @@
 import { ValidateResult } from "react-hook-form";
-import { Data, MiterFieldValues } from "../types";
+import { Data, MiterFieldValues, Document } from "../types";
 
 export const required = (
   value: Data,
@@ -51,6 +51,19 @@ export const customNumberValidation = (
 ): ValidateResult => {
   if (value < 10) {
     return "This number must be greater than 10.";
+  }
+  return true;
+};
+
+export const secondFileThrowError = (
+  value: Document,
+  formValues: MiterFieldValues
+): ValidateResult => {
+  const {
+    file: { size },
+  } = value;
+  if (size > 500) {
+    return "This file is too large.";
   }
   return true;
 };
