@@ -57,7 +57,7 @@ const SimpleForm: FC = () => {
         placeholder="Enter your name"
         rules={required}
         errors={errors}
-        mode="editable"
+        mode="view-only"
         size="medium"
         onValueChange={onValueChange}
       />

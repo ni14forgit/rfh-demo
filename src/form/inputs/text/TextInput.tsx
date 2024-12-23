@@ -2,6 +2,7 @@ import React from "react";
 import { TextProps, MiterFieldValues } from "../../types.ts";
 import { ErrorMessage } from "../../basic/error-message/ErrorMessage.tsx";
 import Label from "../../basic/label/Label.tsx";
+// @ts-ignore
 import styles from "./TextInput.module.css";
 
 export const TextInput = <T extends MiterFieldValues>(props: TextProps<T>) => {
@@ -10,7 +11,7 @@ export const TextInput = <T extends MiterFieldValues>(props: TextProps<T>) => {
     fieldName,
     rules,
     mode,
-    size,
+    helperText,
     onValueChange,
     placeholder,
     errors,
@@ -20,10 +21,12 @@ export const TextInput = <T extends MiterFieldValues>(props: TextProps<T>) => {
   const isDisabled = mode === "disabled";
   const isReadOnly = mode === "view-only";
 
+  // TODO: implement view only mode, which is just display text
+
   return (
     <div>
       <div className={styles["text-label-wrapper"]}>
-        <Label label={label} labelInfo={"This is a number."} />
+        <Label label={label} labelInfo={helperText} />
       </div>
       <input
         className={styles["text-input"]}

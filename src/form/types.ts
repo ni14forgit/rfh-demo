@@ -58,6 +58,7 @@ type CommonProps<T extends MiterFieldValues> = {
   errors: FieldErrors<T>;
   mode: "view-only" | "editable" | "disabled";
   size: "small" | "medium" | "large";
+  helperText?: string;
 };
 
 /**

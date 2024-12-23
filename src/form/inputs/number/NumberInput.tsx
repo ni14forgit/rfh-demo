@@ -1,7 +1,9 @@
 import React from "react";
 import { NumberProps, MiterFieldValues } from "../../types";
+// @ts-ignore
 import styles from "./NumberInput.module.css";
 import Label from "../../basic/label/Label.tsx";
+import { ErrorMessage } from "../../basic/error-message/ErrorMessage.tsx";
 
 export const NumberInput = <T extends MiterFieldValues>(
   props: NumberProps<T>
@@ -11,12 +13,12 @@ export const NumberInput = <T extends MiterFieldValues>(
     fieldName,
     rules,
     mode,
-    size,
     onValueChange,
     placeholder,
     errors,
     register,
     step,
+    helperText,
   } = props;
 
   const isDisabled = mode === "disabled";
@@ -25,7 +27,7 @@ export const NumberInput = <T extends MiterFieldValues>(
   return (
     <div>
       <div className={styles["number-label-wrapper"]}>
-        <Label label={label} labelInfo={"This is a number."} />
+        <Label label={label} labelInfo={helperText} />
       </div>
       <input
         type="number"
@@ -37,7 +39,7 @@ export const NumberInput = <T extends MiterFieldValues>(
         readOnly={isReadOnly}
         step={step ?? undefined}
       />
-      <div>{errors[fieldName]?.message}</div>
+      <ErrorMessage errors={errors} fieldName={fieldName} />
     </div>
   );
 };

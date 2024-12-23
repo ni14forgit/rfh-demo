@@ -1,4 +1,5 @@
 import React from "react";
+// @ts-ignore
 import styles from "./Label.module.css";
 import "./ToolTip.css";
 import { Info } from "@phosphor-icons/react";

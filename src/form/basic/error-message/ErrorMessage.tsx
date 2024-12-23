@@ -2,6 +2,8 @@ import React from "react";
 import { MiterFieldValues } from "../../types";
 import { get } from "lodash";
 import { FieldErrors } from "react-hook-form";
+// @ts-ignore
+import styles from "./ErrorMessage.module.css";
 
 type Props<T extends MiterFieldValues> = {
   errors: FieldErrors<T>;
@@ -17,5 +19,5 @@ export const ErrorMessage = <T extends MiterFieldValues>({
   const fieldPath = isArrayRootError ? `${fieldName}.root` : fieldName;
   const message = get(errors, fieldPath)?.message || "";
 
-  return <div>{message}</div>;
+  return <div className={styles["error-message"]}>{message}</div>;
 };

@@ -1,0 +1,8 @@
+.error-message {
+    margin-top: 4px;
+    color: red;
+    font-size: 14px;
+    display: flex;
+    align-self: flex-start;
+    margin-left: 2px;
+  }
