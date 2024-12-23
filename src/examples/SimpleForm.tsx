@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { TextInput } from "../form/inputs/text/TextInput.tsx";
 import { customNumberValidation, required } from "../form/validations/all.ts";
 import { NumberInput } from "../form/inputs/number/NumberInput.tsx";
-import { SelectInput } from "../form/inputs/SelectInput.tsx";
+import { SelectInput } from "../form/inputs/select/SelectInput.tsx";
 import { FileInput } from "../form/inputs/FileInput.tsx";
 import { Data, Files } from "../form/types.ts";
 
@@ -30,7 +30,7 @@ const SimpleForm: FC = () => {
     defaultValues: {
       name: "",
       age: undefined,
-      favoriteSport: "tennis",
+      favoriteSport: undefined,
       files: [],
     },
   });
@@ -60,6 +60,7 @@ const SimpleForm: FC = () => {
         mode="view-only"
         size="medium"
         onValueChange={onValueChange}
+        helperText="Your name assigned to you at birth."
       />
 
       <NumberInput

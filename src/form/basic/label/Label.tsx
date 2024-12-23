@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useId } from "react";
 // @ts-ignore
 import styles from "./Label.module.css";
-import "./ToolTip.css";
 import { Info } from "@phosphor-icons/react";
 import { Tooltip } from "react-tooltip";
 
@@ -13,18 +12,22 @@ type Props = {
 };
 
 const Label: React.FC<Props> = ({ label, labelInfo, onClick }) => {
+  const id = useId();
   return (
     <div onClick={onClick}>
       <span
-        data-tooltip-id="my-tooltip"
+        data-tooltip-id={id}
         data-tooltip-content={labelInfo}
         className={styles["label-wrapper"]}
       >
         <Tooltip
-          className={"label-tooltip"}
-          id={"my-tooltip"}
+          style={{
+            backgroundColor: "#4D54B6",
+            fontSize: "14px",
+          }}
+          id={id}
           content={labelInfo}
-        ></Tooltip>
+        />
         <span className={styles["label-text"]}>{label}</span>
         {labelInfo ? (
           <div className={styles["label-info-icon-wrapper"]}>
