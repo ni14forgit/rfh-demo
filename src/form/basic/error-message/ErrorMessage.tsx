@@ -1,5 +1,5 @@
 import React from "react";
-import { MiterFieldValues } from "../types";
+import { MiterFieldValues } from "../../types";
 import { get } from "lodash";
 import { FieldErrors } from "react-hook-form";
 

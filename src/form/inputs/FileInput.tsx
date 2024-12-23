@@ -8,7 +8,7 @@ import {
   useFieldArray,
 } from "react-hook-form";
 import { Document } from "../types.ts";
-import { ErrorMessage } from "../basic/error.tsx";
+import { ErrorMessage } from "../basic/error-message/ErrorMessage.tsx";
 import { fileOver500Error } from "../validations/all.ts";
 
 /** Controlled file input component using useFieldArray for better performance */

@@ -31,7 +31,7 @@ type Phone = string;
 type Email = string;
 type SSN = string;
 type SingleSelect = OptionValueBase;
-type MultiSelect = OptionValueBase[];
+type MultipleSelect = OptionValueBase[];
 type Radio = OptionValueBase;
 type Checkbox = boolean;
 
@@ -45,7 +45,7 @@ export type Data =
   | Email
   | SSN
   | SingleSelect
-  | MultiSelect
+  | MultipleSelect
   | Radio
   | Checkbox
   | undefined;
@@ -96,6 +96,13 @@ export type SelectProps<T extends MiterFieldValues> = CommonProps<T> & {
   options: Option<OptionValueBase>[];
   fieldName: Path<T>;
   onValueChange?: (value: SingleSelect) => void | Promise<void>;
+};
+
+export type MultipleSelectProps<T extends MiterFieldValues> = CommonProps<T> & {
+  control: Control<T>;
+  options: Option<OptionValueBase>[];
+  fieldName: Path<T>;
+  onValueChange?: (value: MultipleSelect) => void | Promise<void>;
 };
 
 // /** Files will the useFieldArray hook for performance */

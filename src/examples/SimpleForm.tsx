@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { useForm } from "react-hook-form";
-import { TextInput } from "../form/inputs/TextInput.tsx";
+import { TextInput } from "../form/inputs/text/TextInput.tsx";
 import { customNumberValidation, required } from "../form/validations/all.ts";
-import { NumberInput } from "../form/inputs/NumberInput.tsx";
+import { NumberInput } from "../form/inputs/number/NumberInput.tsx";
 import { SelectInput } from "../form/inputs/SelectInput.tsx";
 import { FileInput } from "../form/inputs/FileInput.tsx";
 import { Data, Files } from "../form/types.ts";
@@ -42,7 +42,14 @@ const SimpleForm: FC = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "30px" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "30px",
+        padding: "30px",
+      }}
+    >
       <TextInput
         label="Name"
         fieldName="name"

@@ -8,7 +8,7 @@ import {
 import { Controller } from "react-hook-form";
 import Select, { SingleValue } from "react-select";
 import { GroupBase } from "react-select";
-import { ErrorMessage } from "../basic/error.tsx";
+import { ErrorMessage } from "../basic/error-message/ErrorMessage.tsx";
 
 /** Controlled input */
 

@@ -1,6 +1,8 @@
 import React from "react";
-import { TextProps, MiterFieldValues } from "../types";
-import { ErrorMessage } from "../basic/error.tsx";
+import { TextProps, MiterFieldValues } from "../../types.ts";
+import { ErrorMessage } from "../../basic/error-message/ErrorMessage.tsx";
+import Label from "../../basic/label/Label.tsx";
+import styles from "./TextInput.module.css";
 
 export const TextInput = <T extends MiterFieldValues>(props: TextProps<T>) => {
   const {
@@ -17,13 +19,14 @@ export const TextInput = <T extends MiterFieldValues>(props: TextProps<T>) => {
 
   const isDisabled = mode === "disabled";
   const isReadOnly = mode === "view-only";
-  const cssClassName = `form ${size}`;
 
   return (
     <div>
-      <div>{label}</div>
+      <div className={styles["text-label-wrapper"]}>
+        <Label label={label} labelInfo={"This is a number."} />
+      </div>
       <input
-        className={cssClassName}
+        className={styles["text-input"]}
         placeholder={placeholder}
         {...register(fieldName, { validate: rules })}
         onChange={(e) => onValueChange?.(e.target.value)}

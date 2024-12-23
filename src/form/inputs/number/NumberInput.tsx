@@ -1,5 +1,7 @@
 import React from "react";
-import { NumberProps, MiterFieldValues } from "../types";
+import { NumberProps, MiterFieldValues } from "../../types";
+import styles from "./NumberInput.module.css";
+import Label from "../../basic/label/Label.tsx";
 
 export const NumberInput = <T extends MiterFieldValues>(
   props: NumberProps<T>
@@ -19,14 +21,15 @@ export const NumberInput = <T extends MiterFieldValues>(
 
   const isDisabled = mode === "disabled";
   const isReadOnly = mode === "view-only";
-  const cssClassName = `form ${size}`;
 
   return (
     <div>
-      <div>{label}</div>
+      <div className={styles["number-label-wrapper"]}>
+        <Label label={label} labelInfo={"This is a number."} />
+      </div>
       <input
         type="number"
-        className={cssClassName}
+        className={styles["number-input"]}
         placeholder={placeholder}
         {...register(fieldName, { validate: rules, valueAsNumber: true })}
         onChange={(e) => onValueChange?.(Number(e.target.value))}

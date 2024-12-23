@@ -1,0 +1,19 @@
+.label-wrapper {
+  display: flex;
+  width: fit-content;
+  flex: 1;
+  align-items: center;
+  color: rgb(80, 80, 80);
+}
+
+.label-info-icon {
+  margin-left: 4px;
+  cursor: pointer;
+  margin-top: 2px;
+}
+
+.label-info-icon-wrapper {
+  display: flex;
+  align-items: center;
+}
+
