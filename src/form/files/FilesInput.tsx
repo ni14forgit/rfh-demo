@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { FilesProps, MiterFieldValues } from "../types.ts";
 import {
   ArrayPath,
@@ -10,10 +10,25 @@ import {
 import { Document } from "../types.ts";
 import { ErrorMessage } from "../basic/error-message/ErrorMessage.tsx";
 import { fileOver500Error } from "../validations/all.ts";
+import { useDropzone } from "react-dropzone";
+// @ts-ignore
+import styles from "./FilesInput.module.css";
+import Label from "../basic/label/Label.tsx";
 
 /** Controlled file input component using useFieldArray for better performance */
-export const FileInput = <T extends MiterFieldValues>(props: FilesProps<T>) => {
-  const { label, fieldName, rules, errors, control } = props;
+export const FilesInput = <T extends MiterFieldValues>(
+  props: FilesProps<T>
+) => {
+  const { label, fieldName, rules, errors, control, helperText } = props;
+  const { getRootProps, getInputProps } = useDropzone({
+    noKeyboard: true,
+    onDrop: (acceptedFiles) => {
+      const files = acceptedFiles.map((file) => ({
+        file,
+      }));
+      append(files as FieldArray<T, ArrayPath<T>>[]);
+    },
+  });
 
   const { fields, append, remove } = useFieldArray<T, typeof fieldName>({
     control,
@@ -21,40 +36,23 @@ export const FileInput = <T extends MiterFieldValues>(props: FilesProps<T>) => {
     rules: { validate: rules },
   });
 
-  const hiddenFileInput = useRef<HTMLInputElement>(null);
-
-  const handleAddDocuments = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const uploadedFiles = Array.from(event.target.files || []);
-
-    const files = uploadedFiles.map((file) => ({
-      file,
-    }));
-
-    append(files as FieldArray<T, ArrayPath<T>>[]);
-
-    if (hiddenFileInput.current) {
-      hiddenFileInput.current.value = "";
-    }
-  };
-
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "10px",
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: "20px",
-      }}
-    >
-      <input
+    <div>
+      {/* <input
         multiple
         ref={hiddenFileInput}
         type="file"
         onChange={handleAddDocuments}
-      />
-      <div>{label}</div>
+      /> */}
+      <div className={styles["files-input-label-wrapper"]}>
+        <Label label={label} labelInfo={helperText} />
+      </div>
+      <div {...getRootProps()} className="dropzone">
+        <input {...getInputProps()} />
+        <div className={styles["dropzone-content"]}>
+          <p>Drag and drop files here, or click to select files</p>
+        </div>
+      </div>
       {fields.map((file, index) => {
         const castedFile = file as unknown as Document;
         const fieldPath = `${fieldName}.${index}` as Path<T>;

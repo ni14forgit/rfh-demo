@@ -4,13 +4,15 @@ import { TextInput } from "../form/inputs/text/TextInput.tsx";
 import { customNumberValidation, required } from "../form/validations/all.ts";
 import { NumberInput } from "../form/inputs/number/NumberInput.tsx";
 import { SelectInput } from "../form/inputs/select/SelectInput.tsx";
-import { FileInput } from "../form/inputs/FileInput.tsx";
+import { FilesInput } from "../form/files/FilesInput.tsx";
 import { Data, Files } from "../form/types.ts";
+import { MultipleSelectInput } from "../form/inputs/multiple-select/MultipleSelectInput.tsx";
 
 type SimpleFormData = {
   name: string;
   age: number;
   favoriteSport: string;
+  favoriteSports: string[];
   files: Files;
 };
 
@@ -18,6 +20,13 @@ const selectOptions = [
   { label: "Tennis", value: "tennis" },
   { label: "Basketball", value: "basketball" },
   { label: "Football", value: "football" },
+  { label: "Baseball", value: "baseball" },
+  { label: "Hockey", value: "hockey" },
+  { label: "Soccer", value: "soccer" },
+  { label: "Volleyball", value: "volleyball" },
+  { label: "Golf", value: "golf" },
+  { label: "Cricket", value: "cricket" },
+  { label: "Rugby", value: "rugby" },
 ];
 
 const SimpleForm: FC = () => {
@@ -32,6 +41,7 @@ const SimpleForm: FC = () => {
       age: undefined,
       favoriteSport: undefined,
       files: [],
+      favoriteSports: ["hockey", "soccer"],
     },
   });
 
@@ -89,7 +99,18 @@ const SimpleForm: FC = () => {
         size="medium"
         onValueChange={onValueChange}
       />
-      <FileInput
+      <MultipleSelectInput
+        label="Favorite Sports"
+        fieldName="favoriteSports"
+        control={control}
+        options={selectOptions}
+        rules={required}
+        errors={errors}
+        mode="editable"
+        size="medium"
+        onValueChange={onValueChange}
+      />
+      <FilesInput
         label="Files"
         fieldName={"files"}
         control={control}

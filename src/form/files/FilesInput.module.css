@@ -1,0 +1,16 @@
+.dropzone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #ccc;
+  border-radius: 4px;
+  padding: 16px;
+  color: rgb(80, 80, 80);
+  background-color: rgba(77, 84, 182, 0.1);
+}
+
+.files-input-label-wrapper {
+  margin-bottom: 6px;
+  margin-left: 1px;
+}

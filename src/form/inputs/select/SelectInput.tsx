@@ -77,7 +77,8 @@ export const testStyles: StylesConfig<Option<OptionValueBase>, boolean> = {
           : "black"
         : "black",
       cursor: isDisabled ? "not-allowed" : "default",
-
+      display: "flex",
+      justifyContent: "flex-start",
       ":active": {
         ...styles[":active"],
         backgroundColor: !isDisabled
