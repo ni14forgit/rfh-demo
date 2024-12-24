@@ -14,6 +14,8 @@ import { useDropzone } from "react-dropzone";
 // @ts-ignore
 import styles from "./FilesInput.module.css";
 import Label from "../basic/label/Label.tsx";
+import { FileSelection } from "./FileSelection.tsx";
+import { File } from "@phosphor-icons/react";
 
 /** Controlled file input component using useFieldArray for better performance */
 export const FilesInput = <T extends MiterFieldValues>(
@@ -38,48 +40,47 @@ export const FilesInput = <T extends MiterFieldValues>(
 
   return (
     <div>
-      {/* <input
-        multiple
-        ref={hiddenFileInput}
-        type="file"
-        onChange={handleAddDocuments}
-      /> */}
       <div className={styles["files-input-label-wrapper"]}>
         <Label label={label} labelInfo={helperText} />
       </div>
       <div {...getRootProps()} className="dropzone">
         <input {...getInputProps()} />
         <div className={styles["dropzone-content"]}>
-          <p>Drag and drop files here, or click to select files</p>
+          <div className={styles["dropzone-content-icon"]}>
+            <File size={20} />
+          </div>
+          <p>Drag 'n' drop some files here, or click to select files</p>
         </div>
       </div>
-      {fields.map((file, index) => {
-        const castedFile = file as unknown as Document;
-        const fieldPath = `${fieldName}.${index}` as Path<T>;
-        return (
-          <div key={index}>
-            <Controller
-              control={control}
-              name={fieldPath}
-              rules={{
-                validate: (w, y) => {
-                  return fileOver500Error(w, y);
-                },
-              }}
-              render={() => {
-                return (
-                  <div>
-                    <button onClick={() => remove(index)}>
-                      {"remove" + castedFile.file.name}
-                    </button>
-                    <ErrorMessage errors={errors} fieldName={fieldPath} />
-                  </div>
-                );
-              }}
-            />
-          </div>
-        );
-      })}
+      <div className={styles["files-input-files-wrapper"]}>
+        {fields.map((file, index) => {
+          const castedFile = file as unknown as Document;
+          const fieldPath = `${fieldName}.${index}` as Path<T>;
+          return (
+            <div key={index}>
+              <Controller
+                control={control}
+                name={fieldPath}
+                rules={{
+                  validate: (w, y) => {
+                    return fileOver500Error(w, y);
+                  },
+                }}
+                render={() => {
+                  return (
+                    <FileSelection
+                      file={castedFile}
+                      fieldPath={fieldPath}
+                      remove={() => remove(index)}
+                      errors={errors}
+                    />
+                  );
+                }}
+              />
+            </div>
+          );
+        })}
+      </div>
 
       <ErrorMessage
         errors={errors}
