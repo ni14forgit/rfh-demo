@@ -4,7 +4,7 @@ import { TextInput } from "../form/inputs/text/TextInput.tsx";
 import { customNumberValidation, required } from "../form/validations/all.ts";
 import { NumberInput } from "../form/inputs/number/NumberInput.tsx";
 import { SelectInput } from "../form/inputs/select/SelectInput.tsx";
-import { FilesInput } from "../form/files/FilesInput.tsx";
+import { FilesInput } from "../form/inputs/files/FilesInput.tsx";
 import { Data, Files } from "../form/types.ts";
 import { MultipleSelectInput } from "../form/inputs/multiple-select/MultipleSelectInput.tsx";
 
@@ -67,7 +67,7 @@ const SimpleForm: FC = () => {
         placeholder="Enter your name"
         rules={required}
         errors={errors}
-        mode="view-only"
+        mode="editable"
         size="medium"
         onValueChange={onValueChange}
         helperText="Your name assigned to you at birth."

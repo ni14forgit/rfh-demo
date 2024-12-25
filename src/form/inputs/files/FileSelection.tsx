@@ -1,9 +1,9 @@
 import React from "react";
 import { FieldErrors, Path } from "react-hook-form";
-import { Document, MiterFieldValues } from "../types";
+import { Document, MiterFieldValues } from "../../types.ts";
 // @ts-ignore
 import styles from "./FilesInput.module.css";
-import { ErrorMessage } from "../basic/error-message/ErrorMessage.tsx";
+import { ErrorMessage } from "../../basic/error-message/ErrorMessage.tsx";
 import { File, X } from "@phosphor-icons/react";
 
 type Props<T extends MiterFieldValues> = {

@@ -1,5 +1,5 @@
 import React from "react";
-import { FilesProps, MiterFieldValues } from "../types.ts";
+import { FilesProps, MiterFieldValues } from "../../types.ts";
 import {
   ArrayPath,
   Controller,
@@ -7,13 +7,13 @@ import {
   Path,
   useFieldArray,
 } from "react-hook-form";
-import { Document } from "../types.ts";
-import { ErrorMessage } from "../basic/error-message/ErrorMessage.tsx";
-import { fileOver500Error } from "../validations/all.ts";
+import { Document } from "../../types.ts";
+import { ErrorMessage } from "../../basic/error-message/ErrorMessage.tsx";
+import { fileOver500Error } from "../../validations/all.ts";
 import { useDropzone } from "react-dropzone";
 // @ts-ignore
 import styles from "./FilesInput.module.css";
-import Label from "../basic/label/Label.tsx";
+import Label from "../../basic/label/Label.tsx";
 import { FileSelection } from "./FileSelection.tsx";
 import { File } from "@phosphor-icons/react";
 
@@ -30,6 +30,10 @@ export const FilesInput = <T extends MiterFieldValues>(
       }));
       append(files as FieldArray<T, ArrayPath<T>>[]);
     },
+    multiple: true,
+    onDragEnter: () => {},
+    onDragOver: () => {},
+    onDragLeave: () => {},
   });
 
   const { fields, append, remove } = useFieldArray<T, typeof fieldName>({

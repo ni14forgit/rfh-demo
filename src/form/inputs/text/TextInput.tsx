@@ -19,9 +19,7 @@ export const TextInput = <T extends MiterFieldValues>(props: TextProps<T>) => {
   } = props;
 
   const isDisabled = mode === "disabled";
-  const isReadOnly = mode === "view-only";
-
-  // TODO: implement view only mode, which is just display text
+  const isViewOnly = mode === "view-only";
 
   return (
     <div>
@@ -34,7 +32,7 @@ export const TextInput = <T extends MiterFieldValues>(props: TextProps<T>) => {
         {...register(fieldName, { validate: rules })}
         onChange={(e) => onValueChange?.(e.target.value)}
         disabled={isDisabled}
-        readOnly={isReadOnly}
+        readOnly={isViewOnly}
       />
       <ErrorMessage errors={errors} fieldName={fieldName} />
     </div>
