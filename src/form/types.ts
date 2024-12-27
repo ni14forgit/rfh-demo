@@ -34,6 +34,15 @@ type SingleSelect = OptionValueBase;
 type MultipleSelect = OptionValueBase[];
 type Radio = OptionValueBase;
 type Checkbox = boolean;
+export type Address = {
+  postal_name: string | null
+  line1: string;
+  line2: string | null;
+  city: string;
+  state: string;
+  postal_code: string;
+  country: string | null;
+};
 
 export type Data =
   | Text
@@ -48,6 +57,7 @@ export type Data =
   | MultipleSelect
   | Radio
   | Checkbox
+  | Address
   | undefined;
 
 export type MiterFieldValues = Record<string, Data>;
@@ -59,6 +69,7 @@ type CommonProps<T extends MiterFieldValues> = {
   mode: "view-only" | "editable" | "disabled";
   size: "small" | "medium" | "large";
   helperText?: string;
+  control: Control<T>;
 };
 
 /**
@@ -84,6 +95,7 @@ export type NumberProps<T extends MiterFieldValues> = CommonProps<T> & {
   onValueChange?: (value: number) => void | Promise<void>;
 };
 
+
 /**
  * Controlled components
  *
@@ -93,7 +105,6 @@ export type NumberProps<T extends MiterFieldValues> = CommonProps<T> & {
  * */
 
 export type SelectProps<T extends MiterFieldValues> = CommonProps<T> & {
-  control: Control<T>;
   options: Option<OptionValueBase>[];
   fieldName: Path<T>;
   onValueChange?: (value: SingleSelect) => void | Promise<void>;
@@ -105,6 +116,13 @@ export type MultipleSelectProps<T extends MiterFieldValues> = CommonProps<T> & {
   fieldName: Path<T>;
   onValueChange?: (value: MultipleSelect) => void | Promise<void>;
 };
+
+export type AddressProps<T extends MiterFieldValues> = CommonProps<T> & {
+  control: Control<T>;
+  fieldName: Path<T>;
+  onValueChange?: (value: Address) => void | Promise<void>;
+};
+
 
 // /** Files will the useFieldArray hook for performance */
 export type FilesProps<T extends MiterFieldValues> = CommonProps<T> & {

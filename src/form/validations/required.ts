@@ -42,12 +42,6 @@ const isObjectRequired = (
     return "At least one selection is required.";
   }
 
-  console.log(value);
-
-  if (Object.keys(value).includes("line1")) {
-    return "This address is required.";
-  }
-
   return !!value ? true : "This field is required.";
 };
 

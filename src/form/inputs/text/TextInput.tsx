@@ -1,38 +1,33 @@
 import React from "react";
-import { TextProps, MiterFieldValues } from "../../types.ts";
+import { MiterFieldValues, TextProps } from "../../types";
 import { ErrorMessage } from "../../basic/error-message/ErrorMessage.tsx";
 import Label from "../../basic/label/Label.tsx";
-// @ts-ignore
-import styles from "./TextInput.module.css";
 
-export const TextInput = <T extends MiterFieldValues>(props: TextProps<T>) => {
-  const {
-    label,
-    fieldName,
-    rules,
-    mode,
-    helperText,
-    onValueChange,
-    placeholder,
-    errors,
-    register,
-  } = props;
-
+export const TextInput = <T extends MiterFieldValues>({
+  label,
+  fieldName,
+  placeholder,
+  rules,
+  mode,
+  helperText,
+  onValueChange,
+  errors,
+  register,
+  control,
+}: TextProps<T>) => {
   const isDisabled = mode === "disabled";
-  const isViewOnly = mode === "view-only";
+  const isReadOnly = mode === "view-only";
 
   return (
     <div>
-      <div className={styles["text-label-wrapper"]}>
-        <Label label={label} labelInfo={helperText} />
-      </div>
+      <Label label={label} labelInfo={helperText} />
       <input
-        className={styles["text-input"]}
+        type="text"
         placeholder={placeholder}
         {...register(fieldName, { validate: rules })}
         onChange={(e) => onValueChange?.(e.target.value)}
         disabled={isDisabled}
-        readOnly={isViewOnly}
+        readOnly={isReadOnly}
       />
       <ErrorMessage errors={errors} fieldName={fieldName} />
     </div>

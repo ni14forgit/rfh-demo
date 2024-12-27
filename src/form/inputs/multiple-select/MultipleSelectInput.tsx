@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   MiterFieldValues,
   OptionValueBase,
   MultipleSelectProps,
   Option,
 } from "../../types.ts";
-import { Controller } from "react-hook-form";
+import { Controller, useWatch } from "react-hook-form";
 import Select, { MultiValue, StylesConfig } from "react-select";
 import { GroupBase } from "react-select";
 import { ErrorMessage } from "../../basic/error-message/ErrorMessage.tsx";
@@ -38,8 +38,27 @@ export const MultipleSelectInput = <T extends MiterFieldValues>(
     helperText,
   } = props;
 
+  const value = useWatch({ control, name: fieldName });
+
   const isDisabled = mode === "disabled";
   const isReadOnly = mode === "view-only";
+
+  const readonlyValue = useMemo(() => {
+    if (!isReadOnly) return ""; // Return early if not in view-only mode
+    const selectedOptions = options.filter((option) =>
+      value?.includes(option.value)
+    );
+
+    if (selectedOptions.length === 0) return "";
+    if (selectedOptions.length === 1) return selectedOptions[0].label;
+    if (selectedOptions.length === 2)
+      return `${selectedOptions[0].label} and ${selectedOptions[1].label}`;
+    return selectedOptions.map((option) => option.label).join(", ");
+  }, [value, options, isReadOnly]);
+
+  if (isReadOnly) {
+    return <div>{readonlyValue}</div>;
+  }
 
   return (
     <div>
@@ -77,7 +96,7 @@ export const MultipleSelectInput = <T extends MiterFieldValues>(
               value={selectedOptions}
               defaultValue={selectedOptions}
               styles={multiSelectStyles}
-              isDisabled={isDisabled || isReadOnly}
+              isDisabled={isDisabled}
               closeMenuOnSelect={false}
             />
           );

@@ -5,15 +5,21 @@ import { customNumberValidation, required } from "../form/validations/all.ts";
 import { NumberInput } from "../form/inputs/number/NumberInput.tsx";
 import { SelectInput } from "../form/inputs/select/SelectInput.tsx";
 import { FilesInput } from "../form/inputs/files/FilesInput.tsx";
-import { Data, Files } from "../form/types.ts";
+import { Address, Data, Files } from "../form/types.ts";
+import {
+  hasLimitedDecimalPlaces,
+  withinRange,
+} from "../form/validations/number.ts";
 import { MultipleSelectInput } from "../form/inputs/multiple-select/MultipleSelectInput.tsx";
+import { AddressInput } from "../form/inputs/address/AddressInput.tsx";
 
 type SimpleFormData = {
-  name: string;
+  name: string[];
   age: number;
   favoriteSport: string;
   favoriteSports: string[];
   files: Files;
+  address: Address;
 };
 
 const selectOptions = [
@@ -37,7 +43,7 @@ const SimpleForm: FC = () => {
     formState: { errors },
   } = useForm<SimpleFormData>({
     defaultValues: {
-      name: "",
+      name: ["hockey", "soccer"],
       age: undefined,
       favoriteSport: undefined,
       files: [],
@@ -50,6 +56,15 @@ const SimpleForm: FC = () => {
   const onValueChange = (value: Data) => {
     console.log("Side effect here", value);
   };
+
+  const limitedValidation = hasLimitedDecimalPlaces({
+    maxDecimalPlaces: 2,
+  });
+
+  const rangeValidation = withinRange({
+    min: 18,
+    max: 100,
+  });
 
   return (
     <div
@@ -67,10 +82,11 @@ const SimpleForm: FC = () => {
         placeholder="Enter your name"
         rules={required}
         errors={errors}
-        mode="editable"
+        mode="view-only"
         size="medium"
         onValueChange={onValueChange}
         helperText="Your name assigned to you at birth."
+        control={control}
       />
 
       <NumberInput
@@ -80,13 +96,15 @@ const SimpleForm: FC = () => {
         placeholder="Enter your age"
         rules={{
           required,
-          customNumberValidation,
+          limitedValidation,
+          rangeValidation,
         }}
         errors={errors}
         mode="editable"
         size="medium"
         onValueChange={onValueChange}
         step={4}
+        control={control}
       />
       <SelectInput
         label="Favorite Sport"
@@ -106,7 +124,7 @@ const SimpleForm: FC = () => {
         options={selectOptions}
         rules={required}
         errors={errors}
-        mode="editable"
+        mode="view-only"
         size="medium"
         onValueChange={onValueChange}
       />
@@ -116,9 +134,20 @@ const SimpleForm: FC = () => {
         control={control}
         rules={required}
         errors={errors}
-        mode="editable"
+        mode="disabled"
         size="medium"
         variant="dropzone-button"
+      />
+
+      <AddressInput
+        label="Address"
+        fieldName="address"
+        control={control}
+        rules={required}
+        errors={errors}
+        mode="editable"
+        size="medium"
+        onValueChange={onValueChange}
       />
 
       <button style={{ marginTop: "30px" }} onClick={handleSubmit(onSave)}>
