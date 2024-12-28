@@ -253,8 +253,7 @@ export const AddressInput = <T extends MiterFieldValues>(
                     value={territoryValue}
                     defaultValue={territoryValue}
                     styles={testStyles}
-                    isClearable={true}
-                    // TODO: is there an onClear prop?
+                    isClearable={false}
                   />
                 </div>
                 <input

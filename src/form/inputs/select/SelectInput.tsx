@@ -4,6 +4,7 @@ import {
   OptionValueBase,
   SelectProps,
   Option,
+  SingleSelect,
 } from "../../types.ts";
 import { Controller } from "react-hook-form";
 import Select, { SingleValue, StylesConfig } from "react-select";
@@ -92,11 +93,22 @@ export const testStyles: StylesConfig<Option<OptionValueBase>, boolean> = {
   },
 };
 
-export const SelectInput = <T extends MiterFieldValues>(
-  props: SelectProps<T>
+export const SelectInput = <
+  T extends MiterFieldValues,
+  IsClearable extends boolean
+>(
+  props: SelectProps<T, IsClearable>
 ) => {
-  const { label, fieldName, rules, onValueChange, errors, control, options } =
-    props;
+  const {
+    label,
+    fieldName,
+    rules,
+    onValueChange,
+    errors,
+    control,
+    options,
+    clearable,
+  } = props;
 
   return (
     <div>
@@ -115,9 +127,15 @@ export const SelectInput = <T extends MiterFieldValues>(
           const handleChange = (
             value: SingleValue<Option<OptionValueBase>>
           ) => {
-            if (!value) return;
-            onChange(value.value);
-            onValueChange?.(value.value);
+            const newValue = value === null ? null : value.value;
+            onChange(newValue);
+            if (clearable) {
+              onValueChange<true>?.(newValue);
+            } else {
+              if (newValue !== null) {
+                onValueChange<false>?.(newValue);
+              }
+            }
           };
 
           return (
@@ -131,7 +149,7 @@ export const SelectInput = <T extends MiterFieldValues>(
               value={optionValue}
               defaultValue={optionValue}
               styles={testStyles}
-              isClearable={true}
+              isClearable={clearable}
             />
           );
         }}

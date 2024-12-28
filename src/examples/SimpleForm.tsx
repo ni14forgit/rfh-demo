@@ -9,7 +9,7 @@ import {
 import { NumberInput } from "../form/inputs/number/NumberInput.tsx";
 import { SelectInput } from "../form/inputs/select/SelectInput.tsx";
 import { FilesInput } from "../form/inputs/files/FilesInput.tsx";
-import { Address, Data, Files } from "../form/types.ts";
+import { Address, Data, Files, SingleSelect } from "../form/types.ts";
 import {
   hasLimitedDecimalPlaces,
   withinRange,
@@ -64,7 +64,9 @@ const SimpleForm: FC = () => {
 
   const onSave = (data: SimpleFormData) => {};
 
-  const onValueChange = (value: Data) => {
+  const onValueChange = <Clearable extends boolean>(
+    value: Clearable extends true ? SingleSelect | null : SingleSelect
+  ) => {
     console.log("Side effect here", value);
   };
 
@@ -117,7 +119,7 @@ const SimpleForm: FC = () => {
         step={4}
         control={control}
       />
-      <SelectInput
+      <SelectInput<SimpleFormData, false>
         label="Favorite Sport"
         fieldName="favoriteSport"
         control={control}
@@ -127,6 +129,7 @@ const SimpleForm: FC = () => {
         mode="editable"
         size="medium"
         onValueChange={onValueChange}
+        clearable={false}
       />
       <MultipleSelectInput
         label="Favorite Sports"
@@ -135,7 +138,7 @@ const SimpleForm: FC = () => {
         options={selectOptions}
         rules={required}
         errors={errors}
-        mode="view-only"
+        mode="editable"
         size="medium"
         onValueChange={onValueChange}
       />

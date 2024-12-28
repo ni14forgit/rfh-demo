@@ -30,7 +30,7 @@ export type Files = Document[]; // $TSFixMe
 type Phone = string;
 type Email = string;
 type SSN = string;
-type SingleSelect = OptionValueBase;
+export type SingleSelect = OptionValueBase;
 type MultipleSelect = OptionValueBase[];
 type Radio = OptionValueBase;
 type Checkbox = boolean;
@@ -103,16 +103,25 @@ export type NumberProps<T extends MiterFieldValues> = CommonProps<T> & {
  *
  * */
 
-export type SelectProps<T extends MiterFieldValues> = CommonProps<T> & {
+type ClearableSingleSelection = SingleSelect | null;
+
+export type SelectProps<
+  T extends MiterFieldValues,
+  IsClearable extends boolean = false
+> = CommonProps<T> & {
   options: Option<OptionValueBase>[];
   fieldName: Path<T>;
-  onValueChange?: (value: SingleSelect) => void | Promise<void>;
+  clearable: IsClearable extends true ? true : false;
+  onValueChange?: <Clearable extends boolean>(
+    value: Clearable extends true ? ClearableSingleSelection : SingleSelect
+  ) => void | Promise<void>;
 };
 
 export type MultipleSelectProps<T extends MiterFieldValues> = CommonProps<T> & {
   control: Control<T>;
   options: Option<OptionValueBase>[];
   fieldName: Path<T>;
+  clearable: boolean;
   onValueChange?: (value: MultipleSelect) => void | Promise<void>;
 };
 
