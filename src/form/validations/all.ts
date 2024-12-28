@@ -1,5 +1,5 @@
 import { ValidateResult } from "react-hook-form";
-import { Data, MiterFieldValues, Document } from "../types";
+import { Data, MiterFieldValues, Document, Address } from "../types";
 
 export const required = (
   value: Data,
@@ -71,5 +71,27 @@ export const fileOver500Error = (
   if (size > 500) {
     return "This file is too large.";
   }
+  return true;
+};
+
+// TODO: fix this so we consistently show the fields that are not filled, even if value is undefined.
+export const addressRequired = (
+  value: Address | undefined,
+  formValues: MiterFieldValues
+): ValidateResult => {
+  if (!value) {
+    return "This address is required.";
+  }
+
+  const fieldsNotFilled = Object.entries(value).filter(
+    ([key, value]) => !value
+  );
+
+  if (fieldsNotFilled.length > 0) {
+    return `This cool address is required. ${fieldsNotFilled
+      .map(([key]) => key)
+      .join(", ")}`;
+  }
+
   return true;
 };

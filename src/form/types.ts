@@ -35,14 +35,14 @@ type MultipleSelect = OptionValueBase[];
 type Radio = OptionValueBase;
 type Checkbox = boolean;
 export type Address = {
-  postal_name: string | null
   line1: string;
   line2: string | null;
   city: string;
   state: string;
   postal_code: string;
-  country: string | null;
 };
+
+// TODO: implment clearing on other select inputs
 
 export type Data =
   | Text
@@ -95,7 +95,6 @@ export type NumberProps<T extends MiterFieldValues> = CommonProps<T> & {
   onValueChange?: (value: number) => void | Promise<void>;
 };
 
-
 /**
  * Controlled components
  *
@@ -122,7 +121,6 @@ export type AddressProps<T extends MiterFieldValues> = CommonProps<T> & {
   fieldName: Path<T>;
   onValueChange?: (value: Address) => void | Promise<void>;
 };
-
 
 // /** Files will the useFieldArray hook for performance */
 export type FilesProps<T extends MiterFieldValues> = CommonProps<T> & {

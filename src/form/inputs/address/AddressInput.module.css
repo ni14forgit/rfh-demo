@@ -1,0 +1,26 @@
+.city-state-zip-wrapper {
+  display: flex;
+  gap: 10px;
+  & > input:nth-child(1) {
+    width: 50%;
+  }
+  & > div:nth-child(2) {
+    width: 25%;
+  }
+  & > input:nth-child(3) {
+    width: 25%;
+  }
+}
+
+.territory-wrapper {
+  width: 100%;
+}   
+
+.line-wrapper {
+  height: 40px;
+}
+
+.address-label-wrapper {
+    margin-bottom: 6px;
+    margin-left: 1px;
+}

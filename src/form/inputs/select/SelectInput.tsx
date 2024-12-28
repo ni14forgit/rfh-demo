@@ -43,12 +43,10 @@ export const testStyles: StylesConfig<Option<OptionValueBase>, boolean> = {
     fontSize: 15,
     margin: 0,
   }),
-  valueContainer: (base, state) => ({
+  singleValue: (base, state) => ({
     ...base,
-    minHeight: 19,
-    padding: "4px 6px",
     display: "flex",
-    alignItems: "center",
+    justifyContent: "flex-start",
   }),
   indicatorSeparator: (base, state) => ({
     ...base,
@@ -57,6 +55,9 @@ export const testStyles: StylesConfig<Option<OptionValueBase>, boolean> = {
   placeholder: (base, state) => ({
     ...base,
     fontSize: 15,
+    margin: 0,
+    display: "flex",
+    alignItems: "center",
   }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     const color = chroma("#4D54B6");
@@ -129,8 +130,8 @@ export const SelectInput = <T extends MiterFieldValues>(
               onChange={handleChange}
               value={optionValue}
               defaultValue={optionValue}
-              // className={styles["select-input"]}
               styles={testStyles}
+              isClearable={true}
             />
           );
         }}

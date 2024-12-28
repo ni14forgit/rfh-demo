@@ -2,6 +2,7 @@ import React from "react";
 import { MiterFieldValues, TextProps } from "../../types";
 import { ErrorMessage } from "../../basic/error-message/ErrorMessage.tsx";
 import Label from "../../basic/label/Label.tsx";
+import styles from "./TextInput.module.css";
 
 export const TextInput = <T extends MiterFieldValues>({
   label,
@@ -28,6 +29,7 @@ export const TextInput = <T extends MiterFieldValues>({
         onChange={(e) => onValueChange?.(e.target.value)}
         disabled={isDisabled}
         readOnly={isReadOnly}
+        className={styles["text-input"]}
       />
       <ErrorMessage errors={errors} fieldName={fieldName} />
     </div>

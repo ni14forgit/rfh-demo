@@ -98,6 +98,7 @@ export const MultipleSelectInput = <T extends MiterFieldValues>(
               styles={multiSelectStyles}
               isDisabled={isDisabled}
               closeMenuOnSelect={false}
+              isClearable={true}
             />
           );
         }}

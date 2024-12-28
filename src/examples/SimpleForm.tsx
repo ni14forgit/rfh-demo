@@ -1,7 +1,11 @@
 import React, { FC } from "react";
 import { useForm } from "react-hook-form";
 import { TextInput } from "../form/inputs/text/TextInput.tsx";
-import { customNumberValidation, required } from "../form/validations/all.ts";
+import {
+  addressRequired,
+  customNumberValidation,
+  required,
+} from "../form/validations/all.ts";
 import { NumberInput } from "../form/inputs/number/NumberInput.tsx";
 import { SelectInput } from "../form/inputs/select/SelectInput.tsx";
 import { FilesInput } from "../form/inputs/files/FilesInput.tsx";
@@ -48,6 +52,13 @@ const SimpleForm: FC = () => {
       favoriteSport: undefined,
       files: [],
       favoriteSports: ["hockey", "soccer"],
+      address: {
+        line1: "123 Main St",
+        line2: null,
+        city: "Anytown",
+        state: "CA",
+        postal_code: "12345",
+      },
     },
   });
 
@@ -143,11 +154,12 @@ const SimpleForm: FC = () => {
         label="Address"
         fieldName="address"
         control={control}
-        rules={required}
+        rules={addressRequired}
         errors={errors}
         mode="editable"
         size="medium"
         onValueChange={onValueChange}
+        helperText="This is a helper text"
       />
 
       <button style={{ marginTop: "30px" }} onClick={handleSubmit(onSave)}>
